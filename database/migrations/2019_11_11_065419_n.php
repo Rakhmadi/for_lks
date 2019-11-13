@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class N extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('data_relasi', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('id_data')->nullable()->unsigned()->index();
+            $table->string('data');
+            $table->foreign('id_data')->references('id')->on('users');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('data_relasi');
+    }
+}
