@@ -7,6 +7,7 @@ use App\User;
 use App\token_model;
 use Auth;
 use Validator;
+use Carbon\Carbon;
 class authApi extends Controller
 {
     public function register(Request $r){
@@ -26,7 +27,7 @@ class authApi extends Controller
                 'name'=> $r->name,
                 'email'=> $r->email,
                 'password'=> bcrypt($r->password),
-            ])->token->save($n);
+            ])->token()->save($n);
             return response()->json([
               'msg'=>'success',
               'token'=>$token,
@@ -41,7 +42,7 @@ class authApi extends Controller
         if ($val->fails()) {
             return response()->json($val->errors());
         } else {
-           $s=Auth::attept([
+           $s=Auth::attempt([
                'email'=>$r->email,
                'password'=>$r->password,
            ]);
@@ -60,4 +61,12 @@ class authApi extends Controller
            }
         }
     }
+    public function logout(Request $r){
+        token_model::where('token',$r->token)->update([
+            'token'=>bcrypt(Carbon::now()),
+        ]);
+        return response()->json([
+            'msg'=>'success'
+        ]);
+        }
 }

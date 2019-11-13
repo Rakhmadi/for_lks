@@ -37,6 +37,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function token(){
-        return $this->hasMany('App/token_model','token_id');
+        return $this->hasMany('App\token_model','token_id');
     }
 }

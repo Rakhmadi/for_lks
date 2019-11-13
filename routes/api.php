@@ -17,3 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 route::post('register','authApi@register');
+route::post('login','authApi@login');
+route::get('logout','authApi@logout')->middleware('token');
